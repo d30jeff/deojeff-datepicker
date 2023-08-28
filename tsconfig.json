@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "types": ["vite/client"],
-    "typeRoots": ["./types", "node_modules/@types"],
+    "typeRoots": ["dist/index.d.ts"],
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "outDir": "./dist",
@@ -26,6 +26,6 @@
       "@utils/*": ["./utils/*"]
     }
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "index.ts"],
   "exclude": ["node_modules"]
 }

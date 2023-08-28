@@ -1,11 +1,18 @@
 {
-  "name": "reactw-datepicker",
-  "version": "0.0.1",
-  "private": true,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "name": "deojeff-datepicker",
+  "version": "0.0.2",
+  "private": false,
+  "type": "module",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
   "files": [
-    "src/**/*"
+    "dist"
   ],
   "author": {
     "email": "d30jeff@gmail.com",
@@ -13,8 +20,9 @@
     "url": "https://github.com/d30jeff"
   },
   "scripts": {
-    "build": "rm -rf dist/ && yarn build:esm && yarn build:cjs",
-    "build:esm": "tsc",
+    "prepublish": "tsc",
+    "build": "vite build",
+    "prepare": "yarn build",
     "build:cjs": "tsc --module CommonJS --outdir dist/cjs",
     "dev": "vite"
   },
@@ -38,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "@vitejs/plugin-react": "^4.0.4",
+    "@vitejs/plugin-react-swc": "^3.3.2",
     "autoprefixer": "^10.4.15",
     "cssnano": "^6.0.1",
     "eslint": "^7.29.0",
@@ -57,6 +66,7 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.5.2",
     "vite-preset-react": "^2.3.0",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.34.1"
