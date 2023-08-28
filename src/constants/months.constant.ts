@@ -1,4 +1,10 @@
+type Month = {
+  text: string;
+  value: number;
+};
+
 export const MONTHS = [
+
   'January',
   'February',
   'March',

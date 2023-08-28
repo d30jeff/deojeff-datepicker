@@ -1,19 +1,20 @@
 import { Dayjs } from 'dayjs';
-import { dayjs } from '@utils/dayjs.util';
+import { YEARS_OFFSET } from '@constants/years.constant';
 
-export const getYears = (date?: Dayjs | null) => {
-  const dates: Dayjs[] = [];
+export class YearsUtil {
+  static fill(years: Dayjs[], direction: 'up' | 'down'): Dayjs[] {
+    let [initial] = years;
 
-  const instance = date || dayjs();
+    if (direction === 'down') {
+      [initial] = years.slice(-1);
+    }
 
-  const century = Number(instance.get('year').toString().slice(-1));
+    const populatedYears = [initial];
+    for (let i = 1; i <= YEARS_OFFSET; i++) {
+      populatedYears.unshift(initial!.subtract(i, 'year'));
+      populatedYears.push(initial!.add(i, 'year'));
+    }
 
-  const start = instance?.subtract(century, 'year');
-
-  for (let i = 0; i < 10; i++) {
-    dates.push(start.add(i, 'year'));
+    return populatedYears;
   }
-  console.log(dates);
-
-  return dates;
-};
+}

@@ -1,10 +1,17 @@
 import { Dayjs } from 'dayjs';
 import { FC, PropsWithChildren, createContext, memo, useContext, useEffect, useState } from 'react';
+import { dayjs } from '@utils/dayjs.util';
+
+export type DatePickerOptions = {
+  disablePastDates?: boolean;
+  disableFutureDates?: boolean;
+};
 
 type DatePickerContextProps = {
   state: State;
+  today: Dayjs;
   setState: (params: Partial<State>) => void;
-  // update: (date?: Dayjs | null) => void;
+  options?: DatePickerOptions;
 };
 
 export const DatePickerContext = createContext<DatePickerContextProps | null>(null);
@@ -21,15 +28,26 @@ export const useDatePickerContext = () => {
 
 type State = {
   date: Dayjs | undefined | null;
+  years: Dayjs[];
   isDatePickerVisible: boolean;
   isYearPickerVisible: boolean;
-}
+  isMonthPickerVisible: boolean;
+};
 
-export const DatePickerProvider: FC<PropsWithChildren> = memo((props) => {
+type DatePickerProviderProps = {
+  date?: Dayjs | null;
+  options?: DatePickerOptions;
+};
+
+export const DatePickerProvider: FC<PropsWithChildren<DatePickerProviderProps>> = memo((props) => {
+  const { date, options } = props;
+
   const [state, updateState] = useState<State>({
-    date: null,
+    date,
+    years: [],
     isDatePickerVisible: false,
     isYearPickerVisible: false,
+    isMonthPickerVisible: false,
   });
 
   const setState = (newState: Partial<State>) => {
@@ -37,5 +55,12 @@ export const DatePickerProvider: FC<PropsWithChildren> = memo((props) => {
     updateState(stateShallowCopy);
   };
 
-  return <DatePickerContext.Provider value={{ state, setState }}>{props.children}</DatePickerContext.Provider>;
+  return (
+    <DatePickerContext.Provider value={{
+      state, setState, options, today: dayjs()
+    }}
+    >
+      {props.children}
+    </DatePickerContext.Provider>
+  );
 });

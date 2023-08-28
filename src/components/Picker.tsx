@@ -1,22 +1,22 @@
-import { FC, HtmlHTMLAttributes, PropsWithChildren, Ref, forwardRef, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
-import { useDatePickerContext } from '@context/DatePicker.context';
-import { MonthSelector } from '@components/MonthSelector/MonthSelector';
+import { FC, HtmlHTMLAttributes, PropsWithChildren, Ref, forwardRef } from 'react';
 import { DaySelector } from '@components/DaySelector/DaySelector';
+import { MonthSelector } from '@components/MonthSelector/MonthSelector';
+import { PickerContainer } from '@components/PickerContainer';
 import { YearSelector } from '@components/YearSelector/YearSelector';
+import { Divider } from '@components/Divider';
 
 type Props = {} & HtmlHTMLAttributes<HTMLDivElement>;
 export const Picker: FC<PropsWithChildren<Props>> = forwardRef((props, ref?: Ref<HTMLInputElement>) => {
 
-  const { state, setState } = useDatePickerContext();
-
   return (
-    <div className={twMerge('border relative p-[10px] w-[320px]', props.className)}>
+    <PickerContainer
+      {...ref}
+      {...props}
+    >
       <YearSelector />
+      <Divider />
       <MonthSelector />
-      <div>
-        <DaySelector />
-      </div>
-    </div>
+      <DaySelector />
+    </PickerContainer>
   );
 });
