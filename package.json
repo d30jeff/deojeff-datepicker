@@ -1,5 +1,5 @@
 {
-  "name": "datepicker",
+  "name": "reactw-datepicker",
   "version": "0.0.1",
   "private": true,
   "main": "dist/cjs/index.js",
@@ -7,6 +7,11 @@
   "files": [
     "src/**/*"
   ],
+  "author": {
+    "email": "d30jeff@gmail.com",
+    "name": "Deojeff",
+    "url": "https://github.com/d30jeff"
+  },
   "scripts": {
     "build": "rm -rf dist/ && yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
