@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { FC, PropsWithChildren, createContext, memo, useContext, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, createContext, memo, useContext, useState } from 'react';
 import { dayjs } from '@utils/dayjs.util';
 
 export type DatePickerOptions = {
@@ -41,7 +41,6 @@ type DatePickerProviderProps = {
 
 export const DatePickerProvider: FC<PropsWithChildren<DatePickerProviderProps>> = memo((props) => {
   const { date, options } = props;
-
   const [state, updateState] = useState<State>({
     date,
     years: [],

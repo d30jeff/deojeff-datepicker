@@ -4,6 +4,7 @@ import { useDatePickerContext } from '@context/DatePicker.context';
 import { dayjs } from '@utils/dayjs.util';
 
 type Props = {};
+
 export const MonthPicker: FC<Props> = (props) => {
   const { state, setState, options, today } = useDatePickerContext();
 
@@ -18,17 +19,16 @@ export const MonthPicker: FC<Props> = (props) => {
       >
         {dayjs.monthsShort().map((month, i) => {
           const isActive = state.date?.get('month') === i;
-          console.log(dayjs().month(i).month(), today.month());
-          const isDisabled = (options?.disablePastDates && today.isBefore(dayjs().month(i), 'month') ||
-            today.isSame(dayjs().month(i), 'month')
-          ) === false;
+          const shouldDisablePastMonths = !options?.disablePastDates ? false : dayjs().month(i).isBefore(dayjs(), 'month');
+          const shouldDisableFutureMonths = !options?.disableFutureDates ? false : dayjs().month(i).isAfter(dayjs(), 'month');
+          const isDisabled = shouldDisablePastMonths || shouldDisableFutureMonths;
 
           return <button
             disabled={isDisabled}
             type="button"
-            className={twMerge('rounded border bg-white hover:bg-purple-500 hover:text-white',
-              isActive ? 'bg-purple-500 text-white' : '',
-              'disabled:cursor-not-allowed'
+            className={twMerge('rounded border bg-white hover:text-white',
+              isActive ? 'bg-gray-500 text-white' : 'hover:bg-gray-500',
+              'disabled:cursor-not-allowed disabled:hover:bg-gray-300'
             )}
             key={month}
             onClick={() => {

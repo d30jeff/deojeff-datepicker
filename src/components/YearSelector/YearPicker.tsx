@@ -1,14 +1,19 @@
 import { FC, useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { YEARS_OFFSET } from '@constants/years.constant';
 import { useDatePickerContext } from '@context/DatePicker.context';
 import { useYears } from '@hooks/use-year.hook';
 import { isElementVisible } from '@utils/dom.util';
 
-type YearPickerProps = {};
+export type YearPickerProps = {
+  classes?: {
+    button?: string;
+    active?: string;
+  }
+};
 
 export const YearPicker: FC<YearPickerProps> = (props) => {
-  const { state, setState, options, today } = useDatePickerContext();
+  const { classes } = props;
+  const { state, setState } = useDatePickerContext();
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRefs = useRef<HTMLButtonElement[]>([]);
   const { update, years } = useYears();
@@ -65,24 +70,6 @@ export const YearPicker: FC<YearPickerProps> = (props) => {
     };
   }, [years, state.isYearPickerVisible]);
 
-  const setInitialYearRange = () => {
-    const newYears = [state.date];
-
-    for (let i = 1; i <= YEARS_OFFSET; i++) {
-      newYears.push(state.date!.add(i, 'year'));
-      const previous = state.date!.subtract(i, 'year');
-      if (options?.disablePastDates) {
-        if (previous.isBefore(today)) {
-          continue;
-        }
-      }
-
-      newYears.unshift(previous);
-    }
-
-    // setYears(newYears);
-  };
-
   if (!state.isYearPickerVisible) {
     return null;
   }
@@ -106,8 +93,9 @@ export const YearPicker: FC<YearPickerProps> = (props) => {
               key={date!.year().toString()}
               id={date!.year().toString()}
               type="button"
-              className={twMerge('text-black h-[40px] border-b-[1px] hover:bg-purple-400',
-                isActive ? 'bg-purple-500' : '')}
+              className={twMerge('text-black h-[40px] border-b-[1px] hover:bg-gray-300',
+                classes?.button,
+                isActive ? twMerge('', classes?.active) : '')}
               onClick={() => {
                 setState({
                   date,

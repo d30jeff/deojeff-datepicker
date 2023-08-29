@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { FC, memo } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useDatePickerContext } from '@context/DatePicker.context';
-import { DAYS, DAY_ROWS, WEEKEND_INDICES } from '@constants/days.constant';
+import { DAY_ROWS, NUMBER_OF_DAYS, WEEKEND_INDICES } from '@constants/days.constant';
 
 type Props = {
   container?: '';
@@ -14,8 +14,8 @@ export const DaySelector: FC<Props> = memo((props) => {
   while (rows.length < DAY_ROWS) {
     const chunks: Dayjs[] = [];
 
-    for (let i = 0; i < DAYS.length; i++) {
-      const start = state.date!.startOf('month').subtract(state.date!.startOf('month').day() - i, 'day').add(rows.length * DAYS.length, 'days');
+    for (let i = 0; i < NUMBER_OF_DAYS; i++) {
+      const start = state.date!.startOf('month').subtract(state.date!.startOf('month').day() - i, 'day').add(rows.length * NUMBER_OF_DAYS, 'days');
       chunks.push(start);
     }
 

@@ -1,12 +1,12 @@
 import { useWindowSize } from '@uidotdev/usehooks';
 import { Dayjs } from 'dayjs';
-import React, { DetailedHTMLProps, FC, HTMLAttributes, InputHTMLAttributes, PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
+import { DetailedHTMLProps, FC, HTMLAttributes, InputHTMLAttributes, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { Picker } from '@components/Picker';
+import { YearSelectorProps } from '@components/YearSelector/YearSelector';
 import useClickOutside from '@hooks/use-click-outside.hook';
 import { Input } from 'components/Input';
 import { DatePickerProvider, useDatePickerContext } from 'context/DatePicker.context';
-import { useYears } from '@hooks/use-year.hook';
 
 type Options = {
   disablePastDates?: boolean;
@@ -14,17 +14,21 @@ type Options = {
 }
 
 type Classes = {
-
   container?: string;
   input?: string;
   picker?: {
     container?: string;
     year?: {
+      picker?: {};
+      selector?: YearSelectorProps;
       elements?: {
         previous?: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
       };
-      previous?: ReactNode
       container?: string;
+    };
+    month?: {};
+    day?: {
+
     };
   };
 };
@@ -38,12 +42,12 @@ type Props = {
   classes?: Classes;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const DatePickerContainer: FC<PropsWithChildren<Props>> = (props) => {
+const DatePickerContainer: FC<PropsWithChildren<Props>> = (props) => {
   const { classes, date: value, format = 'DD/MM/YYYY', onDateChange } = props;
   const containerRef = useRef<HTMLInputElement | null>(null);
   const [cls, setCls] = useState<string[]>([]);
   const size = useWindowSize();
-  const { state, setState, options, today } = useDatePickerContext();
+  const { state, setState } = useDatePickerContext();
   const { ref, isVisible, setVisibility } = useClickOutside(state.isDatePickerVisible);
 
   useEffect(() => {
@@ -84,9 +88,9 @@ export const DatePickerContainer: FC<PropsWithChildren<Props>> = (props) => {
       <Input
         ref={containerRef}
         placeholder="Select Date"
-        className={twMerge(props?.classes?.input || 'h-[40px] border rounded px-[10px]')}
+        className={twMerge('h-[40px] border rounded px-[10px]', props?.classes?.input)}
         value={state.date?.format(format)}
-        defaultValue={state.date?.format(format)}
+        readOnly
         onFocus={() => {
           const rect = containerRef.current!.getBoundingClientRect();
           const clsShallowCopy = [...cls];
@@ -125,7 +129,7 @@ export const DatePickerContainer: FC<PropsWithChildren<Props>> = (props) => {
         }}
       />
 
-      {state.isDatePickerVisible && <Picker className={twMerge('absolute  h-auto', cls, classes?.picker?.container)} />}
+      {state.isDatePickerVisible && <Picker className={twMerge('absolute h-auto', cls, classes?.picker?.container)} />}
     </div>
   );
 };

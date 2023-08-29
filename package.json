@@ -1,6 +1,6 @@
 {
   "name": "deojeff-datepicker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "type": "module",
   "main": "dist/index.umd.js",
@@ -9,6 +9,10 @@
     ".": {
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
     }
   },
   "files": [
@@ -23,7 +27,6 @@
     "prepublish": "tsc",
     "build": "vite build",
     "prepare": "yarn build",
-    "build:cjs": "tsc --module CommonJS --outdir dist/cjs",
     "dev": "vite"
   },
   "optionalDependencies": {
@@ -73,7 +76,9 @@
   },
   "dependencies": {
     "@uidotdev/usehooks": "^2.1.0",
-    "dayjs": "^1.11.9",
     "tailwind-merge": "^1.14.0"
+  },
+  "peerDependencies": {
+    "dayjs": "^1.11.9"
   }
 }

@@ -49,7 +49,6 @@ export const MonthSelector: FC<Props> = (props) => {
 
       <MonthPicker />
 
-
       <Button
         type="button"
         className="text-[12px] disabled:cursor-not-allowed"

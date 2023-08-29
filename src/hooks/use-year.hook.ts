@@ -32,11 +32,11 @@ export const useYears = () => {
       const previous = initial.subtract(i, 'year');
       const next = initial.add(i, 'year');
 
-      if ((options?.disablePastDates && previous.isBefore(today)) === false) {
+      if (Boolean(options?.disablePastDates && previous.isBefore(today)) === false) {
         newYears.unshift(previous);
       }
 
-      if ((options?.disableFutureDates && next.isAfter(today)) === false) {
+      if (Boolean(options?.disableFutureDates && next.isAfter(today)) === false) {
         newYears.push(next);
       }
     }

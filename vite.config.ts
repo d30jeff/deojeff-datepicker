@@ -15,7 +15,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ['reactl', 'react-dom'],
+      external: ['react', 'react-dom', 'dayjs'],
       output: {
         globals: {
           react: 'React',
@@ -26,5 +26,11 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true,
   },
-  plugins: [react(), tsconfigPaths(), dts()],
+  plugins: [
+    react({
+      tsDecorators: false,
+    }),
+    tsconfigPaths(),
+    dts(),
+  ],
 });

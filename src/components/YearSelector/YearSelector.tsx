@@ -1,9 +1,9 @@
+import { Dayjs } from 'dayjs';
 import { FC, ReactNode, useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { useDatePickerContext } from '@context/DatePicker.context';
-import { YearPicker } from '@components/YearSelector/YearPicker';
 import { Button } from '@components/Button';
-import { dayjs } from '@utils/dayjs.util';
+import { YearPicker } from '@components/YearSelector/YearPicker';
+import { useDatePickerContext } from '@context/DatePicker.context';
 
 export type YearSelectorClasses = {
   container?: string;
@@ -13,6 +13,8 @@ export type YearSelectorProps = {
   classes?: YearSelectorClasses;
   elements?: {
     previous?: ReactNode;
+    current?: (params: Dayjs) => ReactNode;
+    next?: ReactNode;
   };
 };
 
@@ -37,7 +39,7 @@ export const YearSelector: FC<YearSelectorProps> = (props) => {
   }, []);
 
   return (
-    <div className={twMerge('grid grid-cols-3 gap-x-[10px] rounded', classes?.container)}>
+    <div className={twMerge('grid grid-cols-3 gap-x-2 rounded', classes?.container)}>
       <Button
         type="button"
         className="text-[12px] disabled:cursor-not-allowed"
@@ -60,7 +62,7 @@ export const YearSelector: FC<YearSelectorProps> = (props) => {
           });
         }}
       >
-        {state.date?.format('YYYY')}
+        {elements?.current ? elements.current(state.date as Dayjs) : state.date?.format('YYYY')}
       </button>
 
       <YearPicker />
@@ -75,7 +77,7 @@ export const YearSelector: FC<YearSelectorProps> = (props) => {
           });
         }}
       >
-        Next
+        {elements?.next ? elements.next : 'Next'}
       </Button>
     </div>
   );
