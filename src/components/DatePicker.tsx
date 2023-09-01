@@ -29,7 +29,7 @@ type Classes = {
   };
 };
 
-type Props = {
+export type DatePickerProps = {
   options: DatePickerOptions;
   date?: Dayjs | null;
   onDateChange: (params?: Dayjs | null) => void;
@@ -38,7 +38,7 @@ type Props = {
   classes?: Classes;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const DatePickerContainer: FC<PropsWithChildren<Props>> = (props) => {
+const DatePickerContainer: FC<PropsWithChildren<DatePickerProps>> = (props) => {
   const { classes, date: value, format = 'DD/MM/YYYY', onDateChange } = props;
   const containerRef = useRef<HTMLInputElement | null>(null);
   const [cls, setCls] = useState<string[]>([]);
@@ -130,7 +130,7 @@ const DatePickerContainer: FC<PropsWithChildren<Props>> = (props) => {
   );
 };
 
-export const DatePicker: FC<Props> = (props) => {
+export const DatePicker: FC<DatePickerProps> = (props) => {
   return (
     <DatePickerProvider {...props}>
       <DatePickerContainer {...props} />
