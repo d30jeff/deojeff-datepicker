@@ -11,7 +11,7 @@ type DatePickerContextProps = {
   state: State;
   today: Dayjs;
   setState: (params: Partial<State>) => void;
-  options?: DatePickerOptions;
+  options: DatePickerOptions;
 };
 
 export const DatePickerContext = createContext<DatePickerContextProps | null>(null);
@@ -36,11 +36,12 @@ type State = {
 
 type DatePickerProviderProps = {
   date?: Dayjs | null;
-  options?: DatePickerOptions;
+  options: DatePickerOptions;
 };
 
 export const DatePickerProvider: FC<PropsWithChildren<DatePickerProviderProps>> = memo((props) => {
   const { date, options } = props;
+  const today = dayjs();
   const [state, updateState] = useState<State>({
     date,
     years: [],
@@ -51,12 +52,17 @@ export const DatePickerProvider: FC<PropsWithChildren<DatePickerProviderProps>> 
 
   const setState = (newState: Partial<State>) => {
     const stateShallowCopy = { ...state, ...newState };
+    if (options.disablePastDates) {
+      if (stateShallowCopy.date?.isBefore(today, 'month')) {
+        stateShallowCopy.date = stateShallowCopy.date.month(today.month());
+      }
+    }
     updateState(stateShallowCopy);
   };
 
   return (
     <DatePickerContext.Provider value={{
-      state, setState, options, today: dayjs()
+      state, setState, options, today
     }}
     >
       {props.children}

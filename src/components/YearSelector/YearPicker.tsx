@@ -13,7 +13,7 @@ export type YearPickerProps = {
 
 export const YearPicker: FC<YearPickerProps> = (props) => {
   const { classes } = props;
-  const { state, setState } = useDatePickerContext();
+  const { state, setState, today } = useDatePickerContext();
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRefs = useRef<HTMLButtonElement[]>([]);
   const { update, years } = useYears();
@@ -29,12 +29,13 @@ export const YearPicker: FC<YearPickerProps> = (props) => {
   }, [years]);
 
   const scrollToMiddle = () => {
-    const buttons = [...document.querySelectorAll('button[name="year"]')];
-    const middleElement = buttons[Math.floor(buttons.length / 2)];
+    const buttonRef = buttonRefs.current[Math.floor(buttonRefs.current.length / 2)];
 
-    if (middleElement) {
-      middleElement.scrollIntoView({
-        behavior: 'instant'
+    if (buttonRef) {
+      buttonRef.scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center',
       });
     }
   };
@@ -82,6 +83,7 @@ export const YearPicker: FC<YearPickerProps> = (props) => {
       >
         {years.map((date, index) => {
           const isActive = state.date?.year() === date!.year();
+          const isThisYear = date.isSame(today, 'year');
           return (
             <button
               name="year"
@@ -95,7 +97,9 @@ export const YearPicker: FC<YearPickerProps> = (props) => {
               type="button"
               className={twMerge('text-black h-[40px] border-b-[1px] hover:bg-gray-300',
                 classes?.button,
-                isActive ? twMerge('', classes?.active) : '')}
+                isThisYear ? 'font-semibold' : '',
+                isActive ? twMerge('bg-gray-300 font-semibold', classes?.active) : '')
+              }
               onClick={() => {
                 setState({
                   date,

@@ -28,7 +28,7 @@ export const YearSelector: FC<YearSelectorProps> = (props) => {
     }
 
     return false;
-  }, []);
+  }, [state.date]);
 
   const shouldDisableNextYear = useCallback(() => {
     if (options?.disableFutureDates) {
@@ -36,7 +36,7 @@ export const YearSelector: FC<YearSelectorProps> = (props) => {
     }
 
     return false;
-  }, []);
+  }, [state.date]);
 
   return (
     <div className={twMerge('grid grid-cols-3 gap-x-2 rounded', classes?.container)}>

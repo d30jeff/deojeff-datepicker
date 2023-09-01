@@ -1,33 +1,33 @@
-import { FC, useCallback } from 'react';
-import { useDatePickerContext } from '@context/DatePicker.context';
-import { MonthPicker } from '@components/MonthSelector/MonthPicker';
+import { FC, useMemo } from 'react';
 import { Button } from '@components/Button';
-import { dayjs } from '@utils/dayjs.util';
+import { MonthPicker } from '@components/MonthSelector/MonthPicker';
+import { useDatePickerContext } from '@context/DatePicker.context';
 
 type Props = {};
 export const MonthSelector: FC<Props> = (props) => {
   const { state, setState, options, today } = useDatePickerContext();
 
-  const shouldDisablePreviousMonth = useCallback(() => {
+  const shouldDisablePreviousMonth = useMemo(() => {
     if (options?.disablePastDates) {
-      return state.date!.isSame(today, 'month') || state.date!.isBefore(today, 'month');
+      return state.date?.isBefore(today) || state.date!.isSame(today, 'month');
     }
-    return false;
-  }, [options?.disablePastDates, state.date]);
 
-  const shouldDisableNextMonth = useCallback(() => {
+    return false;
+  }, [state.date]);
+
+  const shouldDisableNextMonth = useMemo(() => {
     if (options?.disableFutureDates) {
       return state.date!.isSame(today, 'month') || state.date!.isAfter(today, 'month');
     }
     return false;
-  }, [options?.disableFutureDates, state.date]);
+  }, [state.date]);
 
   return (
     <div className="grid grid-cols-3 gap-x-[10px] overflow-hidden rounded">
       <Button
         type="button"
         className="text-[12px] disabled:cursor-not-allowed"
-        disabled={shouldDisablePreviousMonth()}
+        disabled={shouldDisablePreviousMonth}
         onClick={() => {
           const stateShallowCopy = { ...state };
           stateShallowCopy.date = stateShallowCopy.date?.subtract(1, 'month');
@@ -52,7 +52,7 @@ export const MonthSelector: FC<Props> = (props) => {
       <Button
         type="button"
         className="text-[12px] disabled:cursor-not-allowed"
-        disabled={shouldDisableNextMonth()}
+        disabled={shouldDisableNextMonth}
         onClick={() => {
           const stateShallowCopy = { ...state };
           stateShallowCopy.date = stateShallowCopy.date?.add(1, 'month');

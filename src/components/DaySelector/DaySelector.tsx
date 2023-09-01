@@ -6,6 +6,9 @@ import { DAY_ROWS, NUMBER_OF_DAYS, WEEKEND_INDICES } from '@constants/days.const
 
 type Props = {
   container?: '';
+  classes?: {
+    today?: string,
+  }
 };
 export const DaySelector: FC<Props> = memo((props) => {
   const { state, setState, options, today } = useDatePickerContext();
@@ -33,16 +36,17 @@ export const DaySelector: FC<Props> = memo((props) => {
       })}
 
 
-      {rows.map((row, i) => {
+      {rows.map((row) => {
         return row.map(day => {
           const isBeforeOrAfter = day.isBefore(state.date?.startOf('month')) || day.isAfter(state.date?.endOf('month'));
           const isToday = day.isToday();
           const isSelected = day.isSame(state.date);
           const isWeekEnd = WEEKEND_INDICES.includes(day.day());
-          const isDisabled = options?.disablePastDates && day.startOf('day').isBefore(today.startOf('day'));
+          const isPreviousDisabled = options?.disablePastDates && day.startOf('day').isBefore(today.startOf('day'));
+          const isFutureDisabled = options.disableFutureDates && day.startOf('day').isAfter(today.startOf('day'));
 
           return <button
-            disabled={isDisabled}
+            disabled={isPreviousDisabled || isFutureDisabled}
             onClick={() => {
               const stateShallowCopy = { ...state };
               stateShallowCopy.date = day;
@@ -51,7 +55,7 @@ export const DaySelector: FC<Props> = memo((props) => {
             }}
             key={day.format('DD/MM/YYYY')}
             className={twMerge('h-[40px] rounded p-[2px] text-[16px] hover:bg-purple-400 text-gray-700',
-              isDisabled ? 'disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-300' : 'hover:text-white hover:shadow',
+              isPreviousDisabled || isFutureDisabled ? 'disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-300' : 'hover:text-white hover:shadow',
               isBeforeOrAfter ? ' text-gray-300' : '',
               isToday ? 'font-semibold text-purple-600 ' : '',
               isWeekEnd ? 'bg-gray-50 disabled:bg-gray-100' : '',
