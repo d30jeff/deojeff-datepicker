@@ -7,7 +7,7 @@ import { YearSelectorProps } from '@components/YearSelector/YearSelector';
 import useClickOutside from '@hooks/use-click-outside.hook';
 import { Input } from 'components/Input';
 import { DatePickerOptions, DatePickerProvider, useDatePickerContext } from 'context/DatePicker.context';
-
+import '../css/index.css';
 
 type Classes = {
   container?: string;
