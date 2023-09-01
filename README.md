@@ -5,7 +5,7 @@
 ### Usage
 
 ```
-import { DatePicker } from '@components/DatePicker';
+import { DatePicker } from 'deojeff-datepicker';
 import 'deojeff-datepicker/dist/style.css';
 
 const Component = () => {
