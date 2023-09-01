@@ -30,7 +30,7 @@ type Classes = {
 };
 
 export type DatePickerProps = {
-  options: DatePickerOptions;
+  options?: DatePickerOptions;
   date?: Dayjs | null;
   onDateChange: (params?: Dayjs | null) => void;
   format?: string;
