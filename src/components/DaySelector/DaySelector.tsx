@@ -43,7 +43,7 @@ export const DaySelector: FC<Props> = memo((props) => {
           const isSelected = day.isSame(state.date);
           const isWeekEnd = WEEKEND_INDICES.includes(day.day());
           const isPreviousDisabled = options?.disablePastDates && day.startOf('day').isBefore(today.startOf('day'));
-          const isFutureDisabled = options.disableFutureDates && day.startOf('day').isAfter(today.startOf('day'));
+          const isFutureDisabled = options?.disableFutureDates && day.startOf('day').isAfter(today.startOf('day'));
 
           return <button
             disabled={isPreviousDisabled || isFutureDisabled}
