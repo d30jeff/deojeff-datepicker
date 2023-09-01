@@ -6,12 +6,8 @@ import { Picker } from '@components/Picker';
 import { YearSelectorProps } from '@components/YearSelector/YearSelector';
 import useClickOutside from '@hooks/use-click-outside.hook';
 import { Input } from 'components/Input';
-import { DatePickerProvider, useDatePickerContext } from 'context/DatePicker.context';
+import { DatePickerOptions, DatePickerProvider, useDatePickerContext } from 'context/DatePicker.context';
 
-type Options = {
-  disablePastDates?: boolean;
-  disableFutureDates?: boolean;
-}
 
 type Classes = {
   container?: string;
@@ -34,7 +30,7 @@ type Classes = {
 };
 
 type Props = {
-  options?: Options;
+  options: DatePickerOptions;
   date?: Dayjs | null;
   onDateChange: (params?: Dayjs | null) => void;
   format?: string;
