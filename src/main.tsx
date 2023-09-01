@@ -11,18 +11,8 @@ const App = () => {
     <div className="relative grid h-screen w-screen grid-cols-2 grid-rows-2">
       <div className="flex grow-0 items-start justify-start">
         <DatePicker
-          options={{
-            disablePastDates: true,
-          }}
           date={value}
-          classes={{
-            container: 'bg-red-500',
-            picker: {
-              year: {
-                container: 'bg-purple-500'
-              }
-            }
-          }}
+          options={{}}
           onDateChange={(date) => {
             if (date) {
               setValue(date);
