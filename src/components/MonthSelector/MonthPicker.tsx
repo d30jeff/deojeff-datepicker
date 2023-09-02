@@ -3,10 +3,17 @@ import { twMerge } from 'tailwind-merge';
 import { useDatePickerContext } from '@context/DatePicker.context';
 import { dayjs } from '@utils/dayjs.util';
 
-type Props = {};
+export type MonthPickerProps = {
+  classes?: {
+    label?: string;
+    selected?: string;
+    disabled?: string;
+  }
+};
 
-export const MonthPicker: FC<Props> = (props) => {
+export const MonthPicker: FC<MonthPickerProps> = (props) => {
   const { state, setState, options, today } = useDatePickerContext();
+
 
   if (!state.isMonthPickerVisible) {
     return null;
@@ -18,7 +25,7 @@ export const MonthPicker: FC<Props> = (props) => {
         className="grid h-full grid-cols-2 gap-[10px] overflow-scroll bg-white p-[10px]"
       >
         {dayjs.monthsShort().map((month, i) => {
-          const isActive = state.date?.get('month') === i;
+          const isSelected = state.date?.get('month') === i;
           const shouldDisablePastMonths = !options?.disablePastDates ? false : dayjs().month(i).isBefore(dayjs(), 'month');
           const shouldDisableFutureMonths = !options?.disableFutureDates ? false : dayjs().month(i).isAfter(dayjs(), 'month');
           const isDisabled = shouldDisablePastMonths || shouldDisableFutureMonths;
@@ -27,8 +34,9 @@ export const MonthPicker: FC<Props> = (props) => {
             disabled={isDisabled}
             type="button"
             className={twMerge('rounded border bg-white hover:text-white',
-              isActive ? 'bg-gray-500 text-white' : 'hover:bg-gray-500',
-              'disabled:cursor-not-allowed disabled:hover:bg-gray-300'
+              props.classes?.label,
+              isDisabled ? twMerge('disabled:cursor-not-allowed disabled:hover:bg-gray-300', props.classes?.disabled) : '',
+              isSelected ? twMerge('bg-gray-500 text-white', props.classes?.selected) : '',
             )}
             key={month}
             onClick={() => {

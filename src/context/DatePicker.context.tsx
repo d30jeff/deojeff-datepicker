@@ -56,7 +56,22 @@ export const DatePickerProvider: FC<PropsWithChildren<DatePickerProviderProps>> 
       if (stateShallowCopy.date?.isBefore(today, 'month')) {
         stateShallowCopy.date = stateShallowCopy.date.month(today.month());
       }
+
+      if (stateShallowCopy.date?.isBefore(today, 'day')) {
+        stateShallowCopy.date = stateShallowCopy.date.date(today.date());
+      }
     }
+
+    if (options?.disableFutureDates) {
+      if (stateShallowCopy.date?.isAfter(today, 'month')) {
+        stateShallowCopy.date = stateShallowCopy.date.month(today.month());
+      }
+
+      if (stateShallowCopy.date?.isAfter(today, 'day')) {
+        stateShallowCopy.date = stateShallowCopy.date.date(today.date());
+      }
+    }
+
     updateState(stateShallowCopy);
   };
 

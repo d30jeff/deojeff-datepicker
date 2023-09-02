@@ -1,10 +1,12 @@
-import { FC, HtmlHTMLAttributes, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-type Props = {} & HtmlHTMLAttributes<HTMLDivElement>;
-export const PickerContainer: FC<PropsWithChildren<Props>> = (props) => {
+export type PickerContainerProps = {
+  classes?: string;
+};
+export const PickerContainer: FC<PropsWithChildren<PickerContainerProps>> = (props) => {
   return (
-    <div className={twMerge('border absolute p-[10px] w-[320px] rounded shadow-lg', props.className)}>
+    <div className={twMerge('border absolute p-[10px] w-[320px] rounded shadow-lg', props.classes)}>
       {props.children}
     </div>
   );

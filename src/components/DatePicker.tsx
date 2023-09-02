@@ -1,32 +1,16 @@
 import { useWindowSize } from '@uidotdev/usehooks';
 import { Dayjs } from 'dayjs';
-import { DetailedHTMLProps, FC, HTMLAttributes, InputHTMLAttributes, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { FC, InputHTMLAttributes, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Picker } from '@components/Picker';
-import { YearSelectorProps } from '@components/YearSelector/YearSelector';
+import { Picker, PickerProps } from '@components/Picker';
 import useClickOutside from '@hooks/use-click-outside.hook';
 import { Input } from 'components/Input';
 import { DatePickerOptions, DatePickerProvider, useDatePickerContext } from 'context/DatePicker.context';
 import '../css/index.css';
 
 type Classes = {
-  container?: string;
   input?: string;
-  picker?: {
-    container?: string;
-    year?: {
-      picker?: {};
-      selector?: YearSelectorProps;
-      elements?: {
-        previous?: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
-      };
-      container?: string;
-    };
-    month?: {};
-    day?: {
-
-    };
-  };
+  picker?: PickerProps;
 };
 
 export type DatePickerProps = {
@@ -78,7 +62,7 @@ const DatePickerContainer: FC<PropsWithChildren<DatePickerProps>> = (props) => {
 
   return (
     <div
-      className={twMerge('relative h-0', classes?.container)}
+      className={twMerge('relative h-0')}
       ref={ref}
     >
       <Input
@@ -125,7 +109,10 @@ const DatePickerContainer: FC<PropsWithChildren<DatePickerProps>> = (props) => {
         }}
       />
 
-      {state.isDatePickerVisible && <Picker className={twMerge('absolute h-auto', cls, classes?.picker?.container)} />}
+      {state.isDatePickerVisible && <Picker
+        classes={props.classes?.picker?.classes}
+        className={twMerge('absolute h-auto', cls)}
+      />}
     </div>
   );
 };

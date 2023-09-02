@@ -6,8 +6,9 @@ import { isElementVisible } from '@utils/dom.util';
 
 export type YearPickerProps = {
   classes?: {
-    button?: string;
-    active?: string;
+    label?: string;
+    selected?: string;
+    current?: string;
   }
 };
 
@@ -82,7 +83,7 @@ export const YearPicker: FC<YearPickerProps> = (props) => {
         ref={containerRef}
       >
         {years.map((date, index) => {
-          const isActive = state.date?.year() === date!.year();
+          const isSelected = state.date?.year() === date!.year();
           const isThisYear = date.isSame(today, 'year');
           return (
             <button
@@ -96,9 +97,9 @@ export const YearPicker: FC<YearPickerProps> = (props) => {
               id={date!.year().toString()}
               type="button"
               className={twMerge('text-black h-[40px] border-b-[1px] hover:bg-gray-300',
-                classes?.button,
-                isThisYear ? 'font-semibold' : '',
-                isActive ? twMerge('bg-gray-300 font-semibold', classes?.active) : '')
+                classes?.label,
+                isThisYear ? twMerge('font-semibold', props.classes?.current) : '',
+                isSelected ? twMerge('bg-gray-300 font-semibold', classes?.selected) : '')
               }
               onClick={() => {
                 setState({
